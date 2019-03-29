@@ -3,11 +3,11 @@
 Gem::Specification.new do |spec|
   spec.name          = "jekyll-gear-solid"
   spec.version       = "0.1.0"
-  spec.authors       = [""]
-  spec.email         = [""]
+  spec.authors       = ["theTaikun"]
+  spec.email         = ["thub.com_ryqmkwxibutypwg68hdzlku4st40@15turns.com"]
 
-  spec.summary       = "TODO: Write a short summary, because Rubygems requires one."
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = "Custom Jekyll theme."
+  spec.homepage      = "https://github.com/theTaikun/jekyll-gear-solid.git"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").select { |f| f.match(%r!^(assets|_layouts|_includes|_sass|LICENSE|README)!i) }
