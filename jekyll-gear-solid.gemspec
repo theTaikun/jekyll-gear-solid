@@ -4,7 +4,7 @@ Gem::Specification.new do |spec|
   spec.name          = "jekyll-gear-solid"
   spec.version       = "0.1.0"
   spec.authors       = ["theTaikun"]
-  spec.email         = ["thub.com_ryqmkwxibutypwg68hdzlku4st40@15turns.com"]
+  spec.email         = ["github.com_ryqmkwxibutypwg68hdzlku4st40@15turns.com"]
 
   spec.summary       = "Custom Jekyll theme."
   spec.homepage      = "https://github.com/theTaikun/jekyll-gear-solid.git"
