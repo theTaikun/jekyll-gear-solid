@@ -1,5 +1,9 @@
-*~
-
-Gemfile.lock
+# `jekyll new-theme` defaults:
 *.gem
+.bundle
+.sass-cache
 _site
+Gemfile.lock
+
+# vim:
+*~
