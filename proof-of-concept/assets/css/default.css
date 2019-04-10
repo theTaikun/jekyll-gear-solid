@@ -1,0 +1,82 @@
+body {
+  background-color: #F9F6D8;
+  margin:0;
+  display:flex;
+  flex-direction:column;
+  /*! overflow: hidden; */ //Renable this in production. Disabled now to make sure things don't overflow
+  height: ;
+  height: 100%;
+}
+main{
+  height:800px;
+}
+
+a {
+  text-decoration: none;
+  color:red;
+}
+nav a{
+  z-index:3;
+}
+nav a:hover{
+  /*! color:white; */
+  /*! background-color: black; */
+}
+
+.aside--bar__selector{
+  background-color: rgba(255,255,255,0.5);
+  width: 2%;
+    position: absolute;
+  height: 100%;
+    z-index: 2;
+  /*! transition: .5s; */
+  float: left;
+  left: 0%;
+  border-left: 1px solid black;
+}
+.aside--bar__content{
+  background-color: black;
+  width: 100%;
+    /*! position: relative; */
+  height: 0%;
+    z-index: -1;
+  /*! display: none; */
+  /*! clear: left; */
+  float: right;
+  display: flex;
+  justify-content: space-around;
+  /*! padding-top: 5%; */
+  color: white;
+  transition: .5s;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /*! justify-content: space-around; */
+  align-items: center;
+}
+
+.aside--bar {
+	background-color:black;
+  position: absolute;
+  width: 20%;
+  /*! height: 0%; */
+  /*! float: right; */
+  /*! left: 80%; */
+  z-index: 1;
+  /*! display: none; */
+  /*! transition: 1.2s; */
+}
+.trigger{
+  display: flex;
+  /*! flex-basis: -moz-fit-content; */
+  justify-content: space-around;
+}
+.nav_img{
+  height: 200px;
+  width: 200px;
+}
+
+.aside--bar__content * {
+  transition: .4s;
+  /*! display: none; */
+}

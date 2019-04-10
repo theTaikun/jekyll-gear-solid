@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/default.css">
+</head>
+<body>
+	<header class="site-header">
+		<div class="wrapper">
+		<a class="site-title" rel="author" href="/">Site Title</a>
+		<nav class="site-nav">
+			<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+			<label for="nav-trigger">
+				<span class="menu-icon">
+					<svg viewBox="0 0 18 15" width="18px" height="15px">
+					  <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+					</svg>
+				</span>
+			</label>
+
+			<div class="trigger">
+
+				<a class="page-link" href="page1.html">Page 1</a>
+				<a class="page-link activePage"  href="page2.html">Page 2</a>
+				<a class="page-link " href="page3.html">Page 3</a>
+				<a class="page-link" href="http://www.google.com">Test Link</a> <!-- Test to make sure link isn't actually opened -->
+				<div class=aside--bar__selector id=aside--bar__selector></div> <!-- The selector must go after the elements that change it (the nav links) -->
+			</div>
+		</nav>
+		</div>
+	</header>
+
+
+
+    <main class="page-content" aria-label="Content">
+		<aside class="aside--bar" id="aside--bar">
+		<div class="aside--bar__content" id="aside--bar__content">
+			<img src="giraffe.jpg" class="nav_img" >
+			<p>Aside Lorem Ipsum</p>
+		</div>
+		</aside>
+      <div class="wrapper">
+        <div class="home">
+			<h1 class="page-heading">Page Title</h1>
+
+<div class='main__content'>
+	
+</div>
+    </main>
+
+<footer class="site-footer h-card"></footer>
+  <data class="u-url" href="{{ "/" | relative_url }}"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col one-half">
+      <h2 class="footer-heading">Site Title</h2>
+        <ul class="contact-list">
+          <li class="p-name">
+            Author
+            </li>
+
+            <li><a class="u-email" href="mailto:">email@example.com</a></li>
+
+        </ul>
+      </div>
+
+      <div class="footer-col one-half">
+        <p>Site description</p>
+      </div>
+
+      <div class="social-links">
+
+
+<ul class="social-media-list">
+<li><a href="https://dribbble.com/{{ social.dribbble | cgi_escape | escape }}" title="{{ social.dribbble | escape }}"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#dribbble"></use></svg></a></li>
+<li><a href="https://www.facebook.com/{{ social.facebook | cgi_escape | escape }}" title="{{ social.facebook | escape }}"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#facebook"></use></svg></a></li>
+</ul>
+
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+<script>
+
+var selector=document.querySelector('.aside--bar__selector');
+var aside= document.querySelector('.aside--bar');
+var initialPage=document.querySelector('.activePage');
+var initialPagePos=initialPage.getBoundingClientRect().left/window.innerWidth*100+"%"
+var initialPagePosSelectorRelative=initialPagePos.substr(0,initialPagePos.length-1)/(selector.getBoundingClientRect().width/window.innerWidth)+"%"
+var activatedPage=initialPage;
+
+
+var navLinks=document.querySelectorAll('nav a');
+
+function getPage(url, from, to) {
+	console.log("AJAX params: " +url+" "+from+" "+to);
+    var cached=sessionStorage[url];
+    if(!from){from="body";} // default to grabbing body tag
+    if(to && to.split){to=document.querySelector(to);} // a string TO turns into an element
+    if(!to){to=document.querySelector(from);} // default re-using the source elm as the target elm
+	
+	/*
+	// Following line is what is causing the error. Because I've already loaded from this page, refuses to load again.
+	// Figure out if there is a way to load both main and aside at the same time, or remove caching
+	*/
+    //if(cached){console.log("cached: " + cached);return to.innerHTML=cached;} // cache responses for instant re-use re-use
+
+	/*
+	// Will fail due to <meta>/<link>/etc... tag if meta is not closed like this: <meta />
+	// See https://stackoverflow.com/a/27300830
+	// And http://xahlee.info/js/html5_non-closing_tag.html
+	*/
+    var XHRt = new XMLHttpRequest; // new ajax
+    XHRt.responseType='document';  // ajax2 context and onload() event
+    XHRt.onload= function() { sessionStorage[url]=to.innerHTML= XHRt.response.querySelector(from).innerHTML;};
+    XHRt.open("GET", url, true);
+	console.log("about to send for" + to);
+    XHRt.send();
+	console.log("finished sending to" + to);
+    return XHRt;
+}
+
+
+
+for (var i = 0; i < navLinks.length; i++) {
+        //console.log(navLinks[i]);
+		
+        navLinks[i].onmouseover=function(){
+			selectorMover((this.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",(selector.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%");
+		};
+		
+		navLinks[i].onmouseout=function(){
+			selectorMover((activatedPage.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",(selector.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%");
+		};
+		
+		navLinks[i].onclick=function(){
+			var sourceDoc=this.href;
+			oldPage=activatedPage;
+			activatedPage=this;
+			document.querySelector('.aside--bar__content').style.height='0%'; //Gets rid of content first, just for aesthetic. Should not be a functional requirement
+			growAside.onfinish=function(){
+				console.log("finished shrinking");
+				aside.style.left=(activatedPage.getBoundingClientRect().left+selector.getBoundingClientRect().width)/window.innerWidth*100+"%";
+				console.log("loading "+sourceDoc);
+				
+				
+				
+				console.log("sidebar returned: " + getPage(sourceDoc,'.aside--bar__content','.aside--bar__content'));
+				growAside.onfinish=function(){
+					document.querySelector('.aside--bar__content').style.height='100%';
+					console.log("Loading main");
+					console.log("main returned: " +getPage(sourceDoc,'.main__content','.main__content'));
+				};
+				selectorMover((activatedPage.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",(selector.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",true);
+			}
+			growAside.reverse();
+			/*
+			growAside.onfinish=function(){
+				getPage('page1.html','.main__content','.main__content');
+				}
+				*/
+			
+
+			return false; // Needed to prevent user from loading page when clicking link
+		};
+}
+
+
+var timings={
+			duration:500,
+			fill:'both'
+};
+
+var growAside = aside.animate(
+	[
+		{ height:'0%' },
+		{ height:'100%' }
+	],timings
+);
+
+growAside.pause();
+	growAside.onfinish=function(){
+				document.querySelector('.aside--bar__content').style.height='100%';
+			console.log("finished growing");
+}
+
+
+var selectorMover=function(endPos,startPos=null,boolGrowAside=false){
+	console.log("Moving Selector From " + startPos + " TO " + endPos);
+
+	var selectorAnimate=selector.animate(
+		[
+			{transform:"translateX("+startPos+")"},
+			{transform:"translateX("+endPos+")"}
+		],
+		timings
+	);
+	if(boolGrowAside){
+		
+		selectorAnimate.onfinish=function(){
+			console.log("Page change");
+			/*
+			growAside.onfinish=function(){
+				
+			};
+			*/
+			growAside.reverse();
+		}
+	}
+}
+
+
+window.onload = (event) => {
+	var initialKeyframes=[
+		{transform:"translateX("+window.innerWidth+"px)"},
+		{transform:"translateX("+initialPagePosSelectorRelative+")"}
+		];
+	var initialTimings={
+		duration:1000,
+		fill:'forwards'
+		}
+	selector.animate(initialKeyframes,initialTimings).onfinish=function(){
+		//aside.style.left=(initialPage.getBoundingClientRect().left/window.innerWidth+selector.getBoundingClientRect().width/window.innerWidth)*100+"%";
+		aside.style.left=parseFloat(initialPagePos.substring(0,initialPagePos.length-1))+(selector.getBoundingClientRect().width)/window.innerWidth*100+"%";
+		growAside.play();
+		};
+	//console.log(selectorMover(window.innerWidth+"px",(initialPage.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",true))
+	
+};
+
+</script>
+
+
+  </body>
+
+</html>

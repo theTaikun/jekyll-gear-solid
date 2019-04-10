@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/default.css">
+</head>
+
+
+  <body>
+
+<header class="site-header">
+
+  <div class="wrapper">
+
+    <a class="site-title" rel="author" href="/">Site Title</a>
+
+
+      <nav class="site-nav" onmouseout="moveSelector()">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+
+            <a class="page-link" onmouseover="moveSelector(endPos=this)" href="#">Page 1</a>
+			<a class="page-link activePage" onmouseover="moveSelector(endPos=this)" href="#">Page 2</a>
+			<a class="page-link " onclick="changePage('page1.html', this);" onmouseover="moveSelector(endPos=this)" href="#">Page 3</a>
+			<a class="page-link" onmouseover="moveSelector(endPos=this)" href="#">Page 4</a>
+			<div class=aside--bar__selector id=aside--bar__selector></div> <!-- The selector must go after the elements that change it (the nav links) -->
+        </div>
+      </nav>
+
+  </div>
+</header>
+<aside class=aside--bar id=aside--bar>
+	<div class=aside--bar__content id=aside--bar__content>
+		<img src="" class="nav_img" >
+	</div>
+
+</aside>
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="home">
+    <h1 class="page-heading">Page Title</h1>
+
+
+  <h1>Content</h1>
+  <p>Lorem Ipsum</p>
+    <h2 class="post-list-heading">Site Title</h2>
+    <ul class="post-list">
+
+      <li>
+
+        <span class="post-meta">01-01-1970</span>
+        <h3>
+          <a class="post-link" href="">
+            Post Title
+          </a>
+        </h3>
+
+      </li>
+
+    </ul>
+
+    <p class="feed-subscribe"><svg class="svg-icon orange"><use xlink:href="/assets/minima-social-icons.svg#rss"></use></svg><a href="/feed.xml">Subscribe</a></p>
+
+
+</div>
+
+      </div>
+    </main>
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="{{ "/" | relative_url }}"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col one-half">
+      <h2 class="footer-heading">{{ site.title | escape }}</h2>
+        <ul class="contact-list">
+          <li class="p-name">
+            Author
+            </li>
+
+            <li><a class="u-email" href="mailto:">email@example.com</a></li>
+
+        </ul>
+      </div>
+
+      <div class="footer-col one-half">
+        <p>Site description</p>
+      </div>
+
+      <div class="social-links">
+{%- assign social = site.minima.social_links -%}
+
+<ul class="social-media-list">
+<li><a href="https://dribbble.com/{{ social.dribbble | cgi_escape | escape }}" title="{{ social.dribbble | escape }}"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#dribbble"></use></svg></a></li>
+<li><a href="https://www.facebook.com/{{ social.facebook | cgi_escape | escape }}" title="{{ social.facebook | escape }}"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#facebook"></use></svg></a></li>
+</ul>
+
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+<script>
+var bar=document.getElementById('aside--bar');
+var bar_selector=document.getElementById('aside--bar__selector');
+var bar_main = document.getElementById("aside--bar__content");
+
+
+var activePage=document.getElementsByClassName('activePage')[0];
+var activePagePos=activePage.getBoundingClientRect();
+var selectorHome=0;
+var newPos=0;
+/*
+var player = bar.animate([
+  {transform: 'translate(0)'},
+  //{transform: 'translate(100px, 100px)'}
+  {left:activePagePos.left+"px"}
+], 500);
+player.addEventListener('finish', function() {
+  //bar.style.transform = 'translate(100px, 100px)';
+});
+*/
+
+//bar.style.left=activePagePos.left+"px";
+
+var growBarMain=bar.animate([
+  { height:'0%' },
+  { height:'100%' }
+],{
+  duration: 800,
+  fill:'forwards'
+  //iterations: 1 //default is once, so no need to specify explicitly
+}
+);
+//growBarMain.onfinish=bar_main.style.height='100%'; //not needed due to fill:'forwards'
+growBarMain.pause();
+
+function barMove(startPos,endPos){
+	console.log("Moving aside to: " + endPos);
+	var barMoveHandler=bar_selector.animate(
+		[
+			{left:startPos},
+			{left:endPos}
+		],{
+			duration: 800,
+			fill:'forwards'
+		}
+	);
+	//barMoveHandler.pause();
+	barMoveHandler.onfinish=function(){
+		//bar.style.left=endPos; //moved to fill:'forwards'
+		console.log("Done moving bar to" + endPos);
+		parentWidth=bar_selector.offsetParent.offsetWidth;
+		bar_selector__width=bar_selector.offsetWidth;
+		bar.style.left=parseFloat(endPos.substring(0,endPos.length-1))+parseFloat(bar_selector__width/parentWidth*100)+"%";
+		growBarMain.play();
+	};
+	barMoveHandler.play();
+};
+
+
+
+
+
+
+//document.getElementById("bar_main").style.height='100%';
+
+/*
+// Following Code works, but grabs the whole page instead of just specific elements
+function openPage(page){
+output='';
+var request = new XMLHttpRequest();
+
+
+
+request.open('GET', page, true);
+console.log("getting " + page);
+request.onload = function() {
+  if (request.status >= 200 && request.status < 400) {
+    var resp = request.responseText;
+	console.log("got :" +resp);
+	output=resp;
+    //document.querySelector('#div').innerHTML = resp;
+  }
+  else{
+  console.log("failed");
+  }
+};
+
+request.send();
+}
+*/
+
+var mover;
+
+//https://stackoverflow.com/a/21436382
+function getPage(url, from, to) {
+    var cached=sessionStorage[url];
+    if(!from){from="body";} // default to grabbing body tag
+    if(to && to.split){to=document.querySelector(to);} // a string TO turns into an element
+    if(!to){to=document.querySelector(from);} // default re-using the source elm as the target elm
+    if(cached){return to.innerHTML=cached;} // cache responses for instant re-use re-use
+
+    var XHRt = new XMLHttpRequest; // new ajax
+    XHRt.responseType='document';  // ajax2 context and onload() event
+    XHRt.onload= function() { sessionStorage[url]=to.innerHTML= XHRt.response.querySelector(from).innerHTML;};
+    XHRt.open("GET", url, true);
+    XHRt.send();
+    return XHRt;
+}
+
+function changePage(source, clicked_item){
+console.log(mover);
+	newPos=clicked_item.getBoundingClientRect().left/window.innerWidth*100+"%";
+	console.log("Position being sent is: " + newPos);
+	//moveSelector(newPos);
+	bar_selector.style.left=newPos;
+	document.querySelector('.activePage').classList.remove('activePage');
+	clicked_item.classList.add('activePage');
+	selectorHome=newPos;
+
+	growBarMain.reverse(); //shrink
+	//growBarMain.pause();
+	growBarMain.onfinish=function(){
+		console.log("bar stopped shrinking");
+		bar.style.left=newPos+"px";
+		bar_selector.style.left=0;
+		//moveSelector(clicked_item);
+		//bar_selector.style.left=0;
+		growBarMain.reverse();
+		growBarMain.onfinish=function(){};
+		};
+
+	
+	
+
+
+	//growBarMain.play();
+
+	//growBarMain.onfinish=barMove(bar.style.left,newPos+"px");
+	//https://stackoverflow.com/questions/24199037/how-do-i-get-google-analytics-to-track-pages-called-by-ajax
+	//ga(‘send’, ‘pageview’, ‘path to your virtual page’); //Find way to use google tag manager instead of analytics
+	getPage(source,'main','main');
+	getPage(source,'aside','.bar_main');
+	
+}
+/*
+function resetSelector(){
+
+console.log("resetting selector. bar.left is " +bar.left +'newPos is:' + newPos);
+bar_selector.style.left=newPos+"px";
+}
+*/
+
+
+function moveSelector(endPos=null,startPos=activePagePos.left/window.innerWidth*100+"%"){
+	
+	if (endPos==null){
+		startPos=bar_selector.getBoundingClientRect().left/window.innerWidth*100+"%";
+		endPos=activePage.getBoundingClientRect().left/window.innerWidth*100+"%";
+	}
+	else{
+	endPos=endPos.getBoundingClientRect().left/window.innerWidth*100+"%";
+	console.log("Pos is :" +startPos + " New pos is: " + endPos);}
+	
+	var mover=bar_selector.animate(
+		[
+			{left:startPos},
+			{left:endPos}
+		],{
+			duration: 500,
+			fill:'forwards'
+		}
+	);
+	mover.onfinish=function(){
+		
+		if (endPos!=null){
+		console.log("endpos is : " + endPos);
+		bar_selector.style.left=endPos;
+		}
+	}
+}
+
+
+window.onload = (event) => {
+	barMove("100%",activePagePos.left/window.innerWidth*100+"%");
+};
+</script>
+
+
+  </body>
+
+</html>
