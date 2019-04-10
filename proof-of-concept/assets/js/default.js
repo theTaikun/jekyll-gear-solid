@@ -1,4 +1,3 @@
-
 var selector=document.querySelector('.aside--bar__selector');
 var aside= document.querySelector('.aside--bar');
 var initialPage=document.querySelector('.activePage');
@@ -9,6 +8,7 @@ var activatedPage=initialPage;
 
 var navLinks=document.querySelectorAll('nav a');
 
+//https://stackoverflow.com/a/21436382
 function getPage(url, from, to) {
 	console.log("AJAX params: " +url+" "+from+" "+to);
     var cached=sessionStorage[url];
@@ -75,8 +75,13 @@ for (var i = 0; i < navLinks.length; i++) {
 			growAside.onfinish=function(){
 				getPage('page1.html','.main__content','.main__content');
 				}
-				*/
+			*/
 			
+			/*
+			// Will need to a way to send proper analytics for page that isn't actually navigated to:
+			// https://stackoverflow.com/questions/24199037/how-do-i-get-google-analytics-to-track-pages-called-by-ajax
+			//ga(‘send’, ‘pageview’, ‘path to your virtual page’); //Find way to use google tag manager instead of analytics
+			*/
 
 			return false; // Needed to prevent user from loading page when clicking link
 		};
