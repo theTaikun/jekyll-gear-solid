@@ -10,37 +10,38 @@
 <body>
 	<header class="site-header">
 		<div class="wrapper">
-		<a class="site-title" rel="author" href="/">Site Title</a>
+<div class=aside--bar__selector id=aside--bar__selector></div> <!-- The selector must go after the elements that change it (the nav links) -->
 		<nav class="site-nav">
 			<div class="trigger">
 				<a class="page-link" href="page1.html">Page 1</a>
 				<a class="page-link activePage"  href="page2.html">Page 2</a>
 				<a class="page-link " href="page3.html">Page 3</a>
 				<a class="page-link" href="http://www.google.com">Test Link</a> <!-- Test to make sure link isn't actually opened -->
-				<div class=aside--bar__selector id=aside--bar__selector></div> <!-- The selector must go after the elements that change it (the nav links) -->
+				
 			</div>
 		</nav>
 		</div>
 	</header>
-
-
-
-    <main class="page-content" aria-label="Content">
+	<div class="middle">
+		<div class="middle__white-space">
+		</div>
 		<aside class="aside--bar" id="aside--bar">
-			<div class="aside--bar__content" id="aside--bar__content">
-				<img src="giraffe.jpg" class="nav_img" >
-				<p>Aside Lorem Ipsum</p>
-			</div>
+				<div class="aside--bar__content" id="aside--bar__content">
+					<img src="giraffe.jpg" class="nav_img" >
+					<p>Aside Lorem Ipsum</p>
+				</div>
 		</aside>
-		<div class="wrapper">
-			<div class="home">
-				<h1 class="page-heading">Page Title</h1>
-				<div class='main__content'>
+
+		<main class="page-content" aria-label="Content">
+			<div class="wrapper">
+				<div class="home">
+					<h1 class="page-heading">Page Title</h1>
+					<div class='main__content'>
+					</div>
 				</div>
 			</div>
-		</div>
-    </main>
-
+		</main>
+	</div>
 	<footer class="site-footer h-card">
 
 

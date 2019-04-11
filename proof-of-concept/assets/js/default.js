@@ -2,7 +2,7 @@ var selector=document.querySelector('.aside--bar__selector');
 var aside= document.querySelector('.aside--bar');
 var initialPage=document.querySelector('.activePage');
 var initialPagePos=initialPage.getBoundingClientRect().left/window.innerWidth*100+"%"
-var initialPagePosSelectorRelative=initialPagePos.substr(0,initialPagePos.length-1)/(selector.getBoundingClientRect().width/window.innerWidth)+"%"
+var initialPagePosSelectorRelative=(initialPagePos.substr(0,initialPagePos.length-1)-selector.getBoundingClientRect().width/window.innerWidth*100)/(selector.getBoundingClientRect().width/window.innerWidth)+"%"
 var activatedPage=initialPage;
 
 
@@ -43,21 +43,24 @@ for (var i = 0; i < navLinks.length; i++) {
         //console.log(navLinks[i]);
 		
         navLinks[i].onmouseover=function(){
-			selectorMover((this.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",(selector.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%");
+			selectorMover(((this.getBoundingClientRect().left-selector.getBoundingClientRect().width)/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",(selector.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%");
 		};
 		
 		navLinks[i].onmouseout=function(){
-			selectorMover((activatedPage.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",(selector.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%");
+			selectorMover(((activatedPage.getBoundingClientRect().left-selector.getBoundingClientRect().width)/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",(selector.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%");
 		};
 		
 		navLinks[i].onclick=function(){
 			var sourceDoc=this.href;
 			oldPage=activatedPage;
 			activatedPage=this;
+			
+			oldPage.classList.remove('activePage');
+			activatedPage.classList.add('activePage');
 			document.querySelector('.aside--bar__content').style.height='0%'; //Gets rid of content first, just for aesthetic. Should not be a functional requirement
 			growAside.onfinish=function(){
 				console.log("finished shrinking");
-				aside.style.left=(activatedPage.getBoundingClientRect().left+selector.getBoundingClientRect().width)/window.innerWidth*100+"%";
+				document.querySelector('.middle__white-space').style.width=(activatedPage.getBoundingClientRect().left)/window.innerWidth*100+"%";
 				console.log("loading "+sourceDoc);
 				
 				
@@ -68,7 +71,8 @@ for (var i = 0; i < navLinks.length; i++) {
 					console.log("Loading main");
 					console.log("main returned: " +getPage(sourceDoc,'.main__content','.main__content'));
 				};
-				selectorMover((activatedPage.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",(selector.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",true);
+				//selectorMover(((activatedPage.getBoundingClientRect().left-selector.getBoundingClientRect().width)/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",(selector.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",true);
+				growAside.reverse();
 			}
 			growAside.reverse();
 			/*
@@ -134,7 +138,7 @@ var selectorMover=function(endPos,startPos=null,boolGrowAside=false){
 
 window.onload = (event) => {
 	var initialKeyframes=[
-		{transform:"translateX("+window.innerWidth+"px)"},
+		{transform:"translateX("+(document.querySelector("nav").getClientRects()[0].width/window.innerWidth*100)/(selector.getBoundingClientRect().width/window.innerWidth)+"%)"},
 		{transform:"translateX("+initialPagePosSelectorRelative+")"}
 		];
 	var initialTimings={
@@ -143,7 +147,8 @@ window.onload = (event) => {
 		}
 	selector.animate(initialKeyframes,initialTimings).onfinish=function(){
 		//aside.style.left=(initialPage.getBoundingClientRect().left/window.innerWidth+selector.getBoundingClientRect().width/window.innerWidth)*100+"%";
-		aside.style.left=parseFloat(initialPagePos.substring(0,initialPagePos.length-1))+(selector.getBoundingClientRect().width)/window.innerWidth*100+"%";
+		//aside.style.left=parseFloat(initialPagePos.substring(0,initialPagePos.length-1))+(selector.getBoundingClientRect().width)/window.innerWidth*100+"%";
+		document.querySelector('.middle__white-space').style.width=initialPagePos;
 		growAside.play();
 		};
 	//console.log(selectorMover(window.innerWidth+"px",(initialPage.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",true))

@@ -1,26 +1,41 @@
+html {
+  height:100%;
+}
+
 body {
-  background-color: #F9F6D8;
+  background-color: #B5BFBD;
   margin:0;
   display:flex;
   flex-direction:column;
-  /*! overflow: hidden; */ //Renable this in production. Disabled now to make sure things don't overflow
-  height: ;
+  /*! overflow: hidden; */ /* Renable this in production. Disabled now for debugging */
+  height: 100%;
+  justify-content: space-between;
   height: 100%;
 }
-main{
-  height:800px;
+.middle{
+  height:100%;
+  display:flex;
+  flex-direction:row;
 }
 
 a {
   text-decoration: none;
-  color:red;
+  /*! color:red; */
+}
+nav{
+  background-color: grey;
+  width:75%;
 }
 nav a{
   z-index:3;
+  color: white;
 }
 nav a:hover{
   /*! color:white; */
   /*! background-color: black; */
+}
+.activePage{
+  background-color:black;
 }
 
 .aside--bar__selector{
@@ -35,14 +50,14 @@ nav a:hover{
   border-left: 1px solid black;
 }
 .aside--bar__content{
-  background-color: black;
+  /*! background-color: black; */
   width: 100%;
     /*! position: relative; */
   height: 0%;
     z-index: -1;
   /*! display: none; */
   /*! clear: left; */
-  float: right;
+  /*! float: right; */
   display: flex;
   justify-content: space-around;
   /*! padding-top: 5%; */
@@ -57,14 +72,18 @@ nav a:hover{
 
 .aside--bar {
 	background-color:black;
-  position: absolute;
-  width: 20%;
+  /*! position: absolute; */
+  width: 15%;
   /*! height: 0%; */
   /*! float: right; */
   /*! left: 80%; */
   z-index: 1;
   /*! display: none; */
   /*! transition: 1.2s; */
+	overflow: visible;
+}
+main {
+  flex-grow: 1;
 }
 .trigger{
   display: flex;
@@ -79,4 +98,10 @@ nav a:hover{
 .aside--bar__content * {
   transition: .4s;
   /*! display: none; */
+}
+footer {
+  display: flex;
+  color:white;
+  background-color: black;
+  z-index: 3;
 }
