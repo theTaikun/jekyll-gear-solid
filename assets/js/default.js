@@ -51,42 +51,53 @@ for (var i = 0; i < navLinks.length; i++) {
 		};
 		
 		navLinks[i].onclick=function(){
-			var sourceDoc=this.href;
-			oldPage=activatedPage;
-			activatedPage=this;
-			
-			oldPage.classList.remove('activePage');
-			activatedPage.classList.add('activePage');
-			document.querySelector('.aside--bar__content').style.height='0%'; //Gets rid of content first, just for aesthetic. Should not be a functional requirement
-			growAside.onfinish=function(){
-				console.log("finished shrinking");
-				document.querySelector('.middle__white-space').style.width=(activatedPage.getBoundingClientRect().left)/window.innerWidth*100+"%";
-				console.log("loading "+sourceDoc);
-				
-				
-				
-				console.log("sidebar returned: " + getPage(sourceDoc,'.aside--bar__content','.aside--bar__content'));
-				growAside.onfinish=function(){
-					document.querySelector('.aside--bar__content').style.height='100%';
-					console.log("Loading main");
-					console.log("main returned: " +getPage(sourceDoc,'.main__content','.main__content'));
-				};
-				//selectorMover(((activatedPage.getBoundingClientRect().left-selector.getBoundingClientRect().width)/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",(selector.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",true);
-				growAside.reverse();
+			/* 
+			// Following if statement will be important for when analytics is enabled
+			// Otherwise, clicking the same page would register as an additional pageview
+			// Although I'm considering whether or not this is necessary
+			*/
+			if (activatedPage==this){
+				console.log("Same Page");
 			}
-			growAside.reverse();
-			/*
-			growAside.onfinish=function(){
-				getPage('page1.html','.main__content','.main__content');
+			else{
+				console.log("Loading different page");
+				oldPage=activatedPage;
+				activatedPage=this;
+				var sourceDoc=this.href;
+				
+				
+				oldPage.classList.remove('activePage');
+				activatedPage.classList.add('activePage');
+				document.querySelector('.aside--bar__content').style.height='0%'; //Gets rid of content first, just for aesthetic. Should not be a functional requirement
+				growAside.onfinish=function(){
+					console.log("finished shrinking");
+					document.querySelector('.middle__white-space').style.width=(activatedPage.getBoundingClientRect().left)/window.innerWidth*100+"%";
+					console.log("loading "+sourceDoc);
+					
+					
+					
+					console.log("sidebar returned: " + getPage(sourceDoc,'.aside--bar__content','.aside--bar__content'));
+					growAside.onfinish=function(){
+						document.querySelector('.aside--bar__content').style.height='100%';
+						console.log("Loading main");
+						console.log("main returned: " +getPage(sourceDoc,'.main__content','.main__content'));
+					};
+					//selectorMover(((activatedPage.getBoundingClientRect().left-selector.getBoundingClientRect().width)/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",(selector.getBoundingClientRect().left/window.innerWidth)/(selector.getBoundingClientRect().width/window.innerWidth)*100+"%",true);
+					growAside.reverse();
 				}
-			*/
-			
-			/*
-			// Will need to a way to send proper analytics for page that isn't actually navigated to:
-			// https://stackoverflow.com/questions/24199037/how-do-i-get-google-analytics-to-track-pages-called-by-ajax
-			//ga(‘send’, ‘pageview’, ‘path to your virtual page’); //Find way to use google tag manager instead of analytics
-			*/
-
+				growAside.reverse();
+				/*
+				growAside.onfinish=function(){
+					getPage('page1.html','.main__content','.main__content');
+					}
+				*/
+				
+				/*
+				// Will need to a way to send proper analytics for page that isn't actually navigated to:
+				// https://stackoverflow.com/questions/24199037/how-do-i-get-google-analytics-to-track-pages-called-by-ajax
+				//ga(‘send’, ‘pageview’, ‘path to your virtual page’); //Find way to use google tag manager instead of analytics
+				*/
+			}
 			return false; // Needed to prevent user from loading page when clicking link
 		};
 }
