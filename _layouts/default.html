@@ -1,1 +1,86 @@
-{{ content }}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../assets/css/default.css">
+</head>
+<body>
+	<header class="site-header">
+		<div class="wrapper">
+<div class=aside--bar__selector id=aside--bar__selector></div> <!-- The selector must go after the elements that change it (the nav links) -->
+		<nav class="site-nav">
+			<div class="trigger">
+                            <a class="page-link activePage" href="{{site.url}}">Home</a>
+{% assign test_pages = site.pages %}
+	{% for pagex in test_pages %}
+{% if pagex.title %}
+<a href={{pagex.url}}>
+{{ pagex.title }}
+</a>
+{% endif %}
+{% endfor %}		
+			</div>
+		</nav>
+		</div>
+	</header>
+	<div class="middle">
+		<div class="middle__white-space">
+		</div>
+		<aside class="aside--bar" id="aside--bar">
+				<div class="aside--bar__content" id="aside--bar__content">
+                                    {% if page.image %}
+                                    <img src="{{page.image}}" class="nav_img" >
+                                    {% endif %}
+                                    {% if page.summary %}
+                                        <p>{{page.summary}}</p>
+                                    {% endif %}
+				</div>
+		</aside>
+
+		<main class="page-content" aria-label="Content">
+			<div class="wrapper">
+				<div class="home">
+					<h1 class="page-heading">Page Title</h1>
+					<div class='main__content'>
+                                            {{ content }}
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+	<footer class="site-footer h-card">
+
+
+				<div class="footer-col one-half">
+					<h2 class="footer-heading">Site Title</h2>
+					<ul class="contact-list">
+						<li class="p-name">
+							Author
+						</li>
+						<li><a class="u-email" href="mailto:">email@example.com</a></li>
+
+					</ul>
+				</div>
+				<div class="footer-col one-half">
+					<p>Site description</p>
+				</div>
+				<div class="social-links">
+					<ul class="social-media-list">
+                                            <!--
+                                                After adding social.{facebook/instagram/etc} to _config.yaml,
+                                                add additional brackets to line below so jekyll can parse.
+                                                Commented out so it doesnt break build,
+                                                but didnt delete to keep syntax
+                                            -->
+						<li><a href="https://www.facebook.com/{ social.facebook | cgi_escape | escape }" title="facebook"></a></li>
+					</ul>
+				</div>
+
+
+	</footer>
+	<script type="text/javascript" src="../assets/js/default.js"></script>
+</body>
+</html>
